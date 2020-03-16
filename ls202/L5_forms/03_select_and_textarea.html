@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select and Text Area</title>
+</head>
+<body>
+  <form action="#" method="post">
+    <fieldset>
+      <label>
+        Comment
+        <textarea name="tweet">I got 20% off my first purchase at joesburgers.com! You can too!</textarea>
+      </label>
+    </fieldset>
+    <fieldset>
+      <label>
+        Comment
+        <textarea name="tweet" rows="5" cols="40">I got 20% off my first purchase at joesburgers.com! You can too!</textarea>
+      </label>
+    </fieldset>
+    <fieldset>
+      <label>
+        Colors
+        <select name="color">
+          <option value="" disabled selected>Choose one</option>
+          <option value="#f00">Red</option>
+          <option value="#0f0">Green</option>
+          <option value="#00f">Blue</option>
+        </select>
+      </label>
+    </fieldset>
+    <fieldset>
+      <label>
+        Choose Your Favorite Movies
+        <select name="favorites" multiple size="4">
+          <option value="" disabled selected>Select One or More</option>
+          <option>2001: A Space Odyssey</option>
+          <option>Arrival</option>
+          <option>Close Encounters of the Third Kind</option>
+          <option>District 9</option>
+          <option>Guardians of the Galaxy</option>
+          <option>Interstellar</option>
+          <option>Serenity</option>
+          <option>Silent Running</option>
+        </select>
+      </label>
+    </fieldset>
+  </form> 
+</body>
+</html>

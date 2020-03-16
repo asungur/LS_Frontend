@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Input Types</title>
+  <style>
+    fieldset {
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <form action="#" method="post">
+    <fieldset>
+      <label>
+        First Name
+        <input type="text" name="first_name" value="Tom" maxlength="11" />
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" size="12" />
+    </fieldset>
+
+    <fieldset>
+      <label>
+        Email
+        <input type="email" name="email" placeholder="username@domain" />
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <label>
+        Phone
+        <input type="tel" name="phone" placeholder="(###) ###-####" />
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <label>
+        <input type="checkbox" name="choice" value="search" />
+        Sort search results
+      </label>
+  
+      <label>
+        <input type="checkbox" name="choice" value="google" checked />
+        Search on Google
+      </label>
+  
+      <label>
+        <input type="checkbox" name="choice" value="recent" checked />
+        Recent results (within last year)
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <label>
+        <input type="radio" name="color" value="red" />
+        Red
+      </label>
+  
+      <label>
+        <input type="radio" name="color" value="green" checked />
+        Green
+      </label>
+  
+      <label>
+        <input type="radio" name="color" value="blue" />
+        Blue
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <input type="submit" value="Save" />
+    </fieldset>
+
+    <fieldset>
+      <input type="reset" value="Clear Form" />
+    </fieldset>
+  </form>
+</body>
+</html>
