@@ -5,11 +5,19 @@
   <title>Containing Floats</title>
   <style>
     #columns {
+      /* overflow ensures that the parent container properly envelops the child */
+      /* overflow: hidden; */
       background-color: #e0e0e0;
       box-sizing: border-box;
       margin: 0 auto;
       padding: 20px;
       width: 780px;
+    }
+
+     #columns::after { /* This rule is the clearfix  */
+      clear: both;
+      content: "";
+      display: block;
     }
 
     #primary, #secondary {
@@ -37,6 +45,6 @@
       <h3>Sidebar Content</h3>
     </div>
   </div>
-  
+
 </body>
 </html>

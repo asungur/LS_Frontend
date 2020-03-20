@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice Problems: Positioning</title>
+  <style>
+    #positioned {
+      background-color: lightgreen;
+      box-sizing: border-box;
+      padding: 30px 15px;
+      position: fixed;
+      margin-left: -200px;
+      left: 50%;
+      top: 20px;
+      width: 400px;
+      z-index: 2;
+    }
+
+    #fixed {
+      background-color: rgba(0, 0, 0, .6);
+      height: 100%;
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+    }
+
+    #positioned span {
+      background-color: pink;
+      height: 20px;
+      left: -10px;
+      position: absolute;
+      top: -10px;
+      width: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="fixed"></div>
+
+  <div id="positioned">
+    <span></span>
+    I'm positioned
+  </div>
+
+  <section>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas diam vitae elit gravida, quis aliquet quam porttitor. Nullam pellentesque justo tempus ullamcorper ullamcorper. Praesent turpis urna, euismod dignissim leo non, vulputate dignissim erat. Fusce condimentum fringilla erat nec malesuada. Quisque tempus lorem eget nulla imperdiet convallis. Mauris varius pretium leo quis feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis urna vitae urna gravida ultrices vitae tempor orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce maximus ante at tempus malesuada.
+    </p>
+    <p>
+      Aliquam vehicula, lacus ac vulputate malesuada, nulla mi ornare ex, in elementum nisi ipsum convallis mauris. Donec varius lacus leo. Nam auctor hendrerit efficitur. Maecenas malesuada hendrerit libero, ut tempus nisi hendrerit nec. In accumsan gravida porttitor. Sed bibendum turpis quam, ac viverra tortor congue nec. Nullam faucibus vulputate ipsum, et vestibulum ipsum porta ac. Etiam non finibus dui. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut blandit nisl sed libero malesuada, id dignissim nibh egestas. Aenean non lectus tristique, cursus odio eu, lacinia orci. Integer pretium urna magna, at congue ipsum maximus elementum. Nullam ut egestas massa. Aliquam ut molestie arcu, ac viverra massa. Aenean et porta odio.
+    </p>
+  </section>
+</body>
+</html>
