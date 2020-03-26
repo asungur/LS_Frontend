@@ -1,54 +1,86 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font: normal 16px Helvetica, Arial, sans-serif;
   color: #f0f0f0;
   background: #141414;
+  box-sizing: border-box;
   margin: 0;
 }
 
 main {
-  min-width: 600px;
   max-width: 1000px;
   background: #333333;
-  padding: 25px 20px;
+  padding: 25px 20px 20px;
+  box-sizing: border-box;
+  display: block;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
 }
 
 h1 { text-align: center;}
 
 img {
   display: block;
-  max-width: 100%;
+  width: 100%;
   box-sizing: border-box;
+  height: auto;
 }
 
-figure { margin: 0;}
+figure {
+  margin: 0;
+  padding: 0 0 30px;
+}
 
 figure > img {
   border: 15px solid white;
 }
 
-figcaption { padding-bottom: 10px;}
+figcaption {
+  display: block;
+  padding-top: 10px;
+}
 
 ul {
-  display: flex;
-  list-style-type: none;
-  flex-wrap: wrap;
+  font-size: 0;
+  margin: 0 -15px;
   padding: 0;
-
 }
 
 li {
-  max-width: 25%;
-  justify-content: space-between;
-  margin-bottom: 15px;
+  box-sizing: border-box;
+  display: inline-block;
+  margin-bottom: 30px;
+  padding: 0 15px;
+  vertical-align: top;
+  width: 25%;
 }
 
 li > img {
-  max-width: 88%;
   border: 3px solid white;
-  margin: 0 auto;
+}
+
+@media screen and (min-width: 1280px) {
+  main {
+    max-width: 100%;
+  }
+
+  figure {
+    display: inline-block;
+    float: left;
+    margin-right: 50px;
+    vertical-align: top;
+    width: 950px;
+  }
+
+  ul {
+    overflow: hidden;
+  }
+
+  li {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 900px) {
@@ -57,25 +89,4 @@ li > img {
 
 @media screen and (max-width: 600px) {
   li { max-width: 50%; }
-}
-
-@media screen and (min-width: 1200px) {
-  main {
-    max-width: 100%;
-    display: grid;
-    grid-template-areas:
-    "title      title"
-    "main-photo photo-row";
-  }
-}
-
-figure > img {
-  width: 950px;
-  grid-area: main-photo;
-}
-
-h1 { grid-area: title}
-
-ul { 
-  grid-area: column-img; 
 }
