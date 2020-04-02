@@ -96,3 +96,44 @@ console.log(difference);        // => 70
 // COMPOSITION EXAMPLE
 console.log(add(20, 45));       // => 65
 console.log(subtract(80, 10));  // => 70
+
+// THREE WAYS TO DEFINE A FUNCTION
+
+// 1
+function functionName(zeroOrMoreArguments...) {
+  // function body
+}
+
+// 2
+greetPeople();
+
+function greetPeople() {
+  console.log('Good Morning');
+}
+
+// OR
+let greetPeople = function() {
+  console.log('Good Morning');
+};
+
+greetPeople();
+
+// 3. ALSO CALLED ARROW FUNCTIONS
+let greetPeople = () => console.log('Good Morning!');
+greetPeople();
+
+let add = (a, b) => a + b;
+
+// Run this code in your browser
+// SEE THE SYNTHAX DIFFERENCE OF MULTI-LINE VS SINGLE LINE
+// SINGLE LINE DOES NOT REQUIRE RETURN KEYWORD
+
+let add = (a, b) => a + b;
+let getNumber = text => {
+  let input = prompt(text);
+  return Number(input);
+};
+
+let number1 = getNumber('Enter a number: ');
+let number2 = getNumber('Enter another number: ');
+console.log(add(number1, number2));
