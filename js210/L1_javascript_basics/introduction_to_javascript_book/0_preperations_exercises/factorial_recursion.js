@@ -14,4 +14,4 @@ console.log(factorial(4));     // => 24
 console.log(factorial(5));     // => 120
 console.log(factorial(6));     // => 720
 console.log(factorial(7));     // => 5040
-console.log(factorial(8));     // => 40320
+console.log(factorial(8));     // => 40320s
