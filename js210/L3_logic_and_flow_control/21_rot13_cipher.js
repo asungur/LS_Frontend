@@ -10,17 +10,18 @@
 
 function rot13(string) {
   var LETTERS = 26;
-  var Alph = /[a-zA-Z]/;
+  var alph = /[a-zA-Z]/;
   var downCase = /[a-z]/;
   var upCase = /[A-Z]/;
-  var downCaseASCIILimit = 122;
-  var upCaseASCIILimit = 90;
+
+  var downCaseASCIILimit = "z".charCodeAt();
+  var upCaseASCIILimit = "Z".charCodeAt();
   var cipher = '';
   var i;
   var charCode;
 
   for (i = 0; i < string.length; i += 1) {
-    if (!Alph.test(string[i])) {
+    if (!alph.test(string[i])) {
       cipher += string[i];
       continue;
     }
