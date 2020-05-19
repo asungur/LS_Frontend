@@ -7,17 +7,11 @@ console.log(reverseWords('Launch School'));                    // "hcnuaL loohcS
 
 
 function reverseWords(string) {
-  let words = string.split(' ');
-  let reversedWords = [];
-  let currentWord;
+  let stringArr = string.split(' ');
 
-  for (let i = 0; i < words.length; i += 1) {
-    currentWord = words[i];
-    if (currentWord.length >= 5) {
-      reversedWords.push(currentWord.split('').reverse().join(''));
-    } else {
-      reversedWords.push(currentWord);
-    }
-  }
-  return reversedWords.join(' ');
+  return stringArr.map(val => val.length > 5 ? reverseString(val) : val ).join(' ');
+}
+
+function reverseString(string) {
+  return string.split('').reverse().join('');
 }
