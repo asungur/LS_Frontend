@@ -20,7 +20,9 @@ function price(item) {
 // The amount is optional and defaults to 1.
 // If the item is already in the cart, its amount is updated.
 function updateCart(name, amount) {
-  amount = amount || 1;
+  if (amount === undefined) {
+    amount =  1;
+  }
 
   var i;
   var item;
@@ -62,6 +64,7 @@ function pay() {
 }
 
 function checkout() {
+  console.log(shoppingCart);
   pay();
   shoppingCart = {};
 }
