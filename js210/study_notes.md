@@ -56,16 +56,72 @@ typeof 42;         // "number"
 typeof 'odin';     // "string"
 typeof undefined;  // "undefined"
 ```
+### Primitive Values
 
+`Primitive Values` in Javascript are stored on the **stack**. Therefore, these values are immutable. This means that once a value is created it cannot be changed.
 
+For instance, we use certain commands that change the string values that already exist. However, these return *a new string value* and  do not mutate an existing string value. We can reassign the new value to an existing variable which is often confusing but it is not mutation.
 
+```javascript
+let testString = 'Problem';
+testString.toLowerCase();      // returns "problem"
+testString;                    // primitive value is not mutated, returns "Problem"
+```
 
+### Type Conversions
+
+There are two ways of type conversions or **coercions** take place in JavaScript.
+
+Implicit type coercions happens when the conversion is done by JavaScript to perform certain operations.
+```javascript
+'a' + 3;       // resolves  'a3', 3 is converted to string '3'
+false == 0;    // resolves  true, false is converted to the number 0
+```
+String operator `+` is used for concatenation. Number `3` is converted into string `'3'` implicitly to perform string concatenation.
+This feature of JavaScript makes debugging very hard since these operations do not log an error. Therefore, implicit type coercions should be avoided as much as possible.
+
+To sum up:
+1. Use explicit type coercions
+2. Use strict equality operators
+
+We can use different functions to perform the type conversion **explicitly**.
+```javascript
+String(20);         // '20' is returned
+```
+We called `String()`constructor as a function to convert number `20` into a string value. It is important to remember this conversion returns a new value and does not mutate the original value.
 
 
 ## Variable Scopes and Hoisting
+
+```javascript
+let testVariable;                            // variable decleration
+testVariable = 'test value';                 // variable assignment
+let testVariable2 = 'another test value ;    // variable decleration with an initialization assignment
+```
+
 ## Function Declarations, Expressions and Scopes
+
+**Expression** is any valid code that resolves to a value.
+
+Examples of expressions:
+```javascript
+'test string';    // single string
+5;                // single number
+1 + 1;            // arithmetic operations that resolves to 2
+existingVar = 2;  // assignments 
+```
+
+
+
+
 ## Object Properties and Mutation
-### Primitive Values are Immutable
 
 ## Assignments and Comparison
+
+### Comparison
+
+Comparison operators(`==` and `!=`) compare its operands and returns the result of the comparison in form of a boolean value `true` or `false`.
+In case when operands of the comparison are of different types JavaScript does something called implicit type conversion. 
+This often cause unexpected results, there fore JavaScript programmers use strict comparison operators (`===` and `!==`)
+
 ## Pure Functions and Side Effects
