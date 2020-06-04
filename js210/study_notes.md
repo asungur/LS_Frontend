@@ -97,6 +97,46 @@ let testVariable;                            // variable decleration
 testVariable = 'test value';                 // variable assignment
 let testVariable2 = 'another test value ;    // variable decleration with an initialization assignment
 ```
+Javascript executes variable(and function) declerations before it executes any other code. Therefore, when we declera a variable and assign a value. The assingment is executed later when Javascript procesess the code. This behaviour is called **hoisting**.
+
+```javascript
+console.log(name);      //logs undefined
+var name = 'odin';
+console.log(name);      // logs 'odin'
+```
+Is processed same as:
+```javascript
+var name;
+console.log(name);
+name = 'odin';
+console.log(name);
+```
+Hoisting is also valid for function declerations
+```javascript
+console.log(testFunc());   //logs hello
+
+function testFunc() {
+ return 'hello';
+}
+```
+Since function expressions follow variable hoisting rules, this applies function expression in a different way.
+```javascript
+console.log(testFunc());    //Uncaught TypeError
+
+var testFunc = function () {
+ return 'hello';
+};
+```
+This code is executed equivalent to:
+```javascript
+var testFunc;
+console.log(testFunc());    //Uncaught TypeError: testFunc is not a function
+testFunc = function () {
+ return 'hello';
+}
+```
+Function declarations are executed before variable declarations.
+
 
 ## Function Declarations, Expressions and Scopes
 ### Expressions and Functions
@@ -171,11 +211,65 @@ let operand = "test";
 
 function modifier() {     // closure is created
   console.log(operand);   // 
+```
+ 
+Javascript uses **Lexical Scoping rules** to access variables.
 
+When we create a function this defines a new scope regardless if the function is invoked or not. A javascript program consist of hierarchy of scopes. At the top of this hierarchy there is programs global scope. This scoping rule can be simplified by saying that **the source code defines the scope**.
 
+Javascript searches variables starting from the bottom of the hierarchy. When a matchin variable is found the search stops. This allows lower scope to **shadow** the variables with the same name above the hierarchy.
+```javascript
+let car1 = 'camry';
 
+function garage() {
+  let car1 = 'corolla';
+  let car2 = 'fiesta'
+  console.log('car list: ' + car1 + ', ' + car2);
+}
+
+garage();     // logs: "car list: corolla, fiesta"
+```
+when `garage` function is invoked, as part of `console.log()` function, `car1` variable is searched. Since this variable is declared inside the function scope, this shadows the variable declared with the same name in global scope.
+
+### Function Expression
+
+Function declerations(function statement) defines a variable (type of which is `function`). Function declerations do not require a variable assignment. Function declerations are similar to variable declerations, the function name is the variable. Function declerations have to start with the keyword `function`.
+
+```javascript
+function testFunc() {
+  return 'hello';
+}
+console.log(typeof testFunc);    // function
+```
+Another way of defining functions is **function expressions**. A typical example is defining anonymous functions and assign it to a variable.
+```javascript
+let testFunc = function () {
+ return 'hello';
+}
+console.log(typeof testFunc);  // function
+```
+
+Other examples of **function expressions**:
+
+* Name function expressions(useful for debugging):
+ ```javascript
+let testFunc = function foo() {
+ return 'hello';
+}
+console.log(typeof testFunc);  // function
+console.log(typeof foo);       // Uncaught ReferenceError: foo is not defined
+```
+* Also function expression(remember function decleration has to **start with keyword `function`**:
+```javascript
+(function testFunc() {
+ return 'hello';
+})
+console.log(typeof testFunc);  // function
+```
 
 ## Object Properties and Mutation
+
+
 
 ## Assignments and Comparison
 
