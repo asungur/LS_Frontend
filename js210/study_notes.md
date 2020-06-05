@@ -137,6 +137,50 @@ testFunc = function () {
 ```
 Function declarations are executed before variable declarations.
 
+### Usage of `let` and `var`
+
+`let` is introduced at ES6 to simplify scoping and hoisting rules of `var` which was confusing for many developers and were main source of many bugs. There are a couple of differences between the way these two keywords declare a variable.
+
+One difference is the scoping rules. Variables declared by `var` keyword are function scoped(or globally scoped) while `let` variables are scoped to the enclosing block denoted by { } ( the block scope).
+
+```javascript
+function run() {
+  var foo = "Foo";
+  let bar = "Bar";
+
+  console.log(foo, bar);
+
+  {
+    let baz = "Bazz";
+    console.log(baz);
+  }
+
+  console.log(baz); // ReferenceError
+}
+
+run();
+```
+Variables declared with `var` keyword are hoisted (initialized with `undefined`) before the code is run. Where as variables initialized with `let` variables initialized when their definition is evaluated.
+
+```javascript
+function run() {
+  console.log(foo); // undefined
+  var foo = "Foo";
+  console.log(foo); // Foo
+}
+
+run();
+```
+```javascript
+function checkHoisting() {
+  console.log(foo); // ReferenceError
+  let foo = "Foo";
+  console.log(foo); // Foo
+}
+
+checkHoisting();
+```
+
 
 ## Function Declarations, Expressions and Scopes
 ### Expressions and Functions
@@ -219,11 +263,11 @@ When we create a function this defines a new scope regardless if the function is
 
 Javascript searches variables starting from the bottom of the hierarchy. When a matchin variable is found the search stops. This allows lower scope to **shadow** the variables with the same name above the hierarchy.
 ```javascript
-let car1 = 'camry';
+var car1 = 'camry';
 
 function garage() {
-  let car1 = 'corolla';
-  let car2 = 'fiesta'
+  var car1 = 'corolla';
+  var car2 = 'fiesta'
   console.log('car list: ' + car1 + ', ' + car2);
 }
 
