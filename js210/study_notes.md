@@ -86,7 +86,7 @@ String(20);         // '20' is returned
 ```
 We called `String()`constructor as a function to convert number `20` into a string value. It is important to remember this conversion returns a new value and does not mutate the original value.
 
-To sum up:
+Implicit type conversion and non-strict equality operators often cause bugs. You should:
 1. Use explicit type coercions
 2. Use strict equality operators
 
