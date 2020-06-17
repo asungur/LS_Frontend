@@ -221,6 +221,7 @@ Functions invoked by calling the function name with `()`
 function test1() {
  console.log('It works');
  }
+ test1();
  ```
  Functions can be reassigned to a different local variable(functions are also local variables)
  ```javascript
@@ -248,22 +249,23 @@ scoper1();
 }
 ```
 
-Function definitions wrap over the variable scope that is in effect. This is called creating a **closure**. Closures keep track of everything that is within the scope that closure is created.
+Function definitions wrap over the variable scope that is in effect. This is called creating a **closure**. Closures keep track of everything that is within the scope when closure is created.
 
-This relationship between closures and the scope remains as long as the closure exists. This means that while the function is invoked the references can be accessed by the function.
+This relationship between closures and the scope remains as long as the closure exists. This means that while the function is invoked, the references can be accessed by the function.
 
 ```javascript
 let operand = "test";
 
 function modifier() {     // closure is created
-  console.log(operand);   // 
+  console.log(operand);   //
+}
 ```
  
 Javascript uses **Lexical Scoping rules** to access variables.
 
 When we create a function this defines a new scope regardless if the function is invoked or not. A javascript program consist of hierarchy of scopes. At the top of this hierarchy there is programs global scope. This scoping rule can be simplified by saying that **the source code defines the scope**.
 
-Javascript searches variables starting from the bottom of the hierarchy. When a matchin variable is found the search stops. This allows lower scope to **shadow** the variables with the same name above the hierarchy.
+Javascript searches variables starting from the bottom of the hierarchy. When a matching variable is found the search stops. This allows lower scope to **shadow** the variables with the same name above the hierarchy.
 ```javascript
 var car1 = 'camry';
 
@@ -297,7 +299,7 @@ console.log(typeof testFunc);  // function
 
 Other examples of **function expressions**:
 
-* Name function expressions(useful for debugging):
+* Named function expressions(useful for debugging):
  ```javascript
 let testFunc = function foo() {
  return 'hello';
@@ -315,6 +317,7 @@ console.log(typeof testFunc);  // function
 
 ## Object Properties and Mutation
 
+### Built-in Objects vs Primitive Values
 
 
 ## Assignments and Comparison
