@@ -58,7 +58,9 @@ typeof undefined;  // "undefined"
 ```
 ### Primitive Values
 
-**Primitive Values** in Javascript are stored on the **stack**. Therefore, these values are immutable. This means that once a value is created it cannot be changed.
+**Primitive Values** in Javascript are the data that stored on the **stack**. Therefore, these values are immutable. This means that once a value is created it cannot be changed.
+
+**Reference Values** therefore are objects that are stored in the **heap**. Variables here work as pointers which points to a location in the memory where the object is stored.
 
 For instance, we use certain commands that change the string values that already exist. However, these return *a new string value* and  do not mutate an existing string value. We can reassign the new value to an existing variable which is often confusing but it is not mutation.
 
