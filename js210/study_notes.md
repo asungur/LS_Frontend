@@ -319,6 +319,8 @@ console.log(typeof testFunc);  // function
 
 ### Built-in Objects vs Primitive Values
 
+Some built-in objects that Javascript provides are `String`, `Array`, `Object`, `Math`, `Date`. Primitive b
+
 
 ## Assignments and Comparison
 
