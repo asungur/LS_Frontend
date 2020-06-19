@@ -319,7 +319,29 @@ console.log(typeof testFunc);  // function
 
 ### Built-in Objects vs Primitive Values
 
-Some built-in objects that Javascript provides are `String`, `Array`, `Object`, `Math`, `Date`. Primitive b
+Some built-in objects that Javascript provides are `String`, `Array`, `Object`, `Math`, `Date`. from MDN:*In JavaScript, a primitive (primitive value, primitive data type) is data that is not an object and has no methods.* 
+Therefore, when we call a `String.prototype` method on a primitive value javascript does a temporary implicit coercion to `String` object type. This can be tracked by using `typeof` operator.
+
+```javascript
+let primitiveString = 'Hello';
+typeof test1;                                // "string"(primitive type)
+
+let objectString = new String('Hello');
+typeof objectString;                         // "object"(string object)
+
+primitiveString.toUpperCase();               // "HELLO" primitive type temporarily coerced
+objectString.toUpperCase();                  // "HELLO" 
+
+typeof primitiveString;                      // "string"
+typeof objectString;                         // "object"
+```
+### Object Properties and Methods
+
+In JavaScript objects are collection of data and behavior. Data consist of attributes of objects where as behaviour is functions that are part of the object. Properties consist of key(or name)-value pairs. When the value part of the property is a function we call these methods.
+
+An object is a collection of properties, and a property is an association between a name (or key) and a value. A property's value can be a function, in which case the property is known as a method. In addition to objects that are predefined in the browser, you can define your own objects
+
+```javascript
 
 
 ## Assignments and Comparison
