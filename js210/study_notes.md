@@ -317,6 +317,35 @@ console.log(typeof testFunc);  // function
 
 ## Object Properties and Mutation
 
+Simple object literal consists of:
+```javascript
+let myObj = {
+ prop1: 'sample data',
+ prop2: 'sample data',
+ method1: function () {},
+};
+```
+There are two benefits of using a comma after the first property:
+* Allows us to reposition properties freely without worrying about adding commas before/after rearragenment.
+* Adding a new property shows additional line of changes in `git diff`.
+
+With ES6 writing methods calls are simplified. This practical way is called **compact method synthax**.
+```javascript
+let myObj = {
+ foo: function (par) {
+  console.log('hello ${par}');
+ },
+};
+```
+now can be written as
+```javascript
+let myObj = {
+ foo(par) {
+  console.log('hello ${par}'};
+ },
+}
+```
+
 ### Built-in Objects vs Primitive Values
 
 Some built-in objects that Javascript provides are `String`, `Array`, `Object`, `Math`, `Date`. from MDN:*In JavaScript, a primitive (primitive value, primitive data type) is data that is not an object and has no methods.* 
@@ -337,11 +366,102 @@ typeof objectString;                         // "object"
 ```
 ### Object Properties and Methods
 
-In JavaScript objects are collection of data and behavior. Data consist of attributes of objects where as behaviour is functions that are part of the object. Properties consist of key(or name)-value pairs. When the value part of the property is a function we call these methods.
+In JavaScript objects are collection of **data** and **behavior**. *Data* consist of **attributes of objects** where as *behaviour* is **functions** that are part of the object. *Properties* consist of **key(or name)-value pairs**. When the value part of the property is a function we call these **methods**.
 
-An object is a collection of properties, and a property is an association between a name (or key) and a value. A property's value can be a function, in which case the property is known as a method. In addition to objects that are predefined in the browser, you can define your own objects
 
 ```javascript
+let cars = [ 'toyota', 'mazda', 'tesla' ];
+
+cars.length;                          // dot notation to access 'length' property
+
+'audi'.length;                        // primitive value temporarily coerced into 'String' object type.
+
+cars.length = 1;                      // dot notation can be used to set a new value for a property.
+
+cars;                                 // [ 'toyota' ];
+
+'xxa-123'.match(/[a-z]/g);            // methods are also object properties.
+```
+
+In the last example above we called 'String.prototype.match' method which  property of a string object. Methods can be called with dot notation appended by parantheses, between which we can pass arguments to the method call similar to a function call.
+
+Property naming rules are quite simple in JavaScript, this makes everything hard to understand sometimes.
+*Key(or name)* of a property can be any valid string. *Value* of a property can be any valid expression.
+
+```javascript
+let myObj = {                        
+ x: 10,                             // x is a string with quotes omitted
+ 'prop1: 4 + 3,                     // value can be any expression
+ 'longer prop': 'string value',     // multi word string works
+ false: false,                      // property name will be converted to string 'false'
+ obj2: {
+  year: 1990,
+  model: 'corolla',
+ },
+ myFunc: function () {              // function expression can be property value
+  return true;
+ },
+ myFunc2() {                        // compact method synthax
+  return 5;
+ },
+};
+
+Property values can be accessed by using **dot notation** or **bracket notation**.
+```javascript
+let myObj = {
+ prop1: 'val1',
+ prop2: 'val2',
+};
+
+myObj.prop1;      // "val1", dot notation
+myObj['prop2'];   // "val2", bracket notation
+myObj.prop3;      // undefined when property is not defined
+
+let myObj = {                        
+ x: 10,
+ 'prop1': 4 + 3,
+ 'prop2': 'test',
+ 'longer prop': 'string value',     
+ false: false,                      
+ obj2: {
+  year: 1990,
+  model: 'corolla',
+ },
+ myFunc: function () {
+  return true;
+ },
+ myFunc2() {
+  return 5;
+ },
+};
+
+myObj['longer prop'];       // "string value", use bracket notation when property name is an invalid identifier
+myObj['prop' + '2'];        // "test", bracket notation can take expressions
+let var1 = 'prop2';
+myObj[var1];                // "test", bracket notation works with variables since they are expressions
+myObj.obj2.year;            // chaining dot notations to access nested object properties
+myObj.myFunc();             // true, method call 'myFunc'
+
+```
+
+Both *dot notation* or *bracket notation* canbe used to add a new property
+```javascript
+let myObj = {];
+
+myObj.prop1 = 'testl';
+myObj.prop1;                    // "test1"
+
+myObj['longer prop'] = 'test2';
+myObj['longer prop'];           // "test2"
+
+myObj;                          // { prop1: "test1", "longer prop": "test2" }
+
+delete myObj.prop1              // use reserved keyword delete to delete properties
+```
+
+### Mutability of Values and Objects
+
+
 
 
 ## Assignments and Comparison
