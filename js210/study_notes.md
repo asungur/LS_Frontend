@@ -490,7 +490,7 @@ Apart from the `return` values functions can have secondary uses. This can be as
 
 Functions without side effects are called **pure functions**. Pure functions(also) always return values and are expected to return the same values with the same arguments passed in.
 
-Simple example below is not a pure function since it does not return the same values with the same arguments(and it has side effects)
+Simple example below is not a pure function since it does not return the same value with the same arguments passed in(and it has side effects)
 ```javascript
 let iterator = 'abcde';
 function notPure(str) {
@@ -507,4 +507,24 @@ function cleanArr(array) {
  array.length = 0;
  return array;
 }
+```
+One good practice to avoid confusion on side effects is to pass in the "to be modified" variables as arguments so other people parsing the code could identify any modifications easier.
+```javascript
+let cars = ['corolla', 'tesla'];
+function addElement(element) {
+ cars.push(element);
+ return cars;
+}                               
+addElement('mazda');         // ['corolla', 'tesla', 'mazda']
+cars;                        // ['corolla', 'tesla', 'mazda']
+```
+This is pretty confusing arrangement, especially if the cars is defined very early in the code, surely it will raise question marks.
+```javascript
+let cars = ['corolla', 'tesla'];
+function addElement(element, array) {
+ array.push(element);
+ return array;
+}                         
+addElement('mazda', cars);   // ['corolla', 'tesla', 'mazda']
+cars;                        // ['corolla', 'tesla', 'mazda']
 ```
