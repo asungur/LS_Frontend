@@ -317,7 +317,7 @@ console.log(typeof testFunc);  // function
 
 ## Object Properties and Mutation
 
-Simple object literal consists of:
+Simple object literal looks like this:
 ```javascript
 let myObj = {
  prop1: 'sample data',
@@ -327,7 +327,7 @@ let myObj = {
 ```
 There are two benefits of using a comma after the first property:
 * Allows us to reposition properties freely without worrying about adding commas before/after rearragenment.
-* Adding a new property shows additional line of changes in `git diff`.
+* Adding a new property does not show additional line as changed in `git diff`.
 
 With ES6 writing methods calls are simplified. This practical way is called **compact method synthax**.
 ```javascript
@@ -348,8 +348,9 @@ let myObj = {
 
 ### Built-in Objects vs Primitive Values
 
-Some built-in objects that Javascript provides are `String`, `Array`, `Object`, `Math`, `Date`. from MDN:*In JavaScript, a primitive (primitive value, primitive data type) is data that is not an object and has no methods.* 
-Therefore, when we call a `String.prototype` method on a primitive value javascript does a temporary implicit coercion to `String` object type. This can be tracked by using `typeof` operator.
+Some built-in objects that Javascript provides are `String`, `Array`, `Object`, `Math`, `Date`.
+From MDN: *In JavaScript, a primitive (primitive value, primitive data type) is data that is not an object and has no methods.* 
+Therefore, when we call a `String.prototype` method on a string, javascript does a temporary implicit coercion to `String` object type. This can be tracked by using `typeof` operator.
 
 ```javascript
 let primitiveString = 'Hello';
@@ -380,7 +381,7 @@ cars.length = 1;                      // dot notation can be used to set a new v
 
 cars;                                 // [ 'toyota' ];
 
-'xxa-123'.match(/[a-z]/g);            // methods are also object properties.
+'xxa-123'.match(/[a-z]/g);            // methods are also object properties and called with appended parantheses
 ```
 
 In the last example above we called 'String.prototype.match' method which  property of a string object. Methods can be called with dot notation appended by parantheses, between which we can pass arguments to the method call similar to a function call.
@@ -444,7 +445,7 @@ myObj.myFunc();             // true, method call 'myFunc'
 
 ```
 
-Both *dot notation* or *bracket notation* canbe used to add a new property
+Both *dot notation* or *bracket notation* can be used to add a new property
 ```javascript
 let myObj = {];
 
@@ -461,8 +462,19 @@ delete myObj.prop1              // use reserved keyword delete to delete propert
 
 ### Mutability of Values and Objects
 
+As we know from the data types, primitive values are *immutable* where as objects are *mutable*. This means:
 
+* Primitive values can not be modified, such operations always return a new value of the same primitive type.
+* Objects can be modified. To be more specific we access the data that is contained in the objects and change them.
 
+```javascript
+let myString = 'locale';       // variable assignment to a primitive value
+myVar.toUpperCase();           // "LOCALE" function returns a new primitive value
+myVar;                         // "locale" original primitive value that is assigned to variable is unchanged
+
+let myArr = [ 'l', 'o', 'c', 'a', 'l', 'e' ];   // variable assignment to array (object type)
+myArr[1] = myArr[1].toUpperCase();              // myArr[1] is changed therefore myArr object is mutated;
+```
 
 ## Assignments and Comparison
 
@@ -473,3 +485,26 @@ In case when operands of the comparison are of different types JavaScript does s
 This often cause unexpected results, there fore JavaScript programmers use strict comparison operators (`===` and `!==`)
 
 ## Pure Functions and Side Effects
+
+Apart from the `return` values functions can have secondary uses. This can be as simple as mutating the Objects passed in as arguments or modifying an existing variable in outer scope, all these changes called Function's **side effects**.
+
+Functions without side effects are called **pure functions**. Pure functions(also) always return values and are expected to return the same values with the same arguments passed in.
+
+Simple example below is not a pure function since it does not return the same values with the same arguments(and it has side effects)
+```javascript
+let iterator = 'abcde';
+function notPure(str) {
+ iterator += str;
+ return iterator;
+}
+
+notPure('f');   // "abcdef"
+notPure('f');   // "abcdeff"
+```
+Function below gives the same result with the same arguments passed in; However, it has side effects therefore not a pure function.
+```javascript
+function cleanArr(array) {
+ array.length = 0;
+ return array;
+}
+```
