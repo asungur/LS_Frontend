@@ -406,7 +406,7 @@ let myObj = {
   return 5;
  },
 };
-
+```
 Property values can be accessed by using **dot notation** or **bracket notation**.
 ```javascript
 let myObj = {
