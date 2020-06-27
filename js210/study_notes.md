@@ -384,7 +384,7 @@ cars;                                 // [ 'toyota' ];
 'xxa-123'.match(/[a-z]/g);            // methods are also object properties and called with appended parantheses
 ```
 
-In the last example above we called 'String.prototype.match' method which  property of a string object. Methods can be called with dot notation appended by parantheses, between which we can pass arguments to the method call similar to a function call.
+In the last example above we called `String.prototype.match` method which  property of a string object. Methods can be called with dot notation appended by parantheses, between which we can pass arguments to the method call similar to a function call.
 
 Property naming rules are quite simple in JavaScript, this makes everything hard to understand sometimes.
 *Key(or name)* of a property can be any valid string. *Value* of a property can be any valid expression.
