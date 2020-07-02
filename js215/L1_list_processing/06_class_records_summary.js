@@ -68,17 +68,52 @@ let studentScores = {
 const NUMBER_OF_EXAMS = 4;
 const EXAM_RATE = .65;
 const EXERCISE_RATE = .35;
-const GRADE_TABLE
 
 function generateClassRecordSummary(scores) {
-  // ...
+  let summary = {
+    studentGrades: listStudentGrades(scores),
+    exams: examGrades(scores),
+  }
+  return summary;
+}
+
+function examGrades (scores) {
+  let exams = [];
+  for (let i = 0; i < NUMBER_OF_EXAMS; i += 1) {
+    exams[i] = [];
+    Object.keys(scores).forEach((student) => exams[i].push(scores[student].scores.exams[i]));
+  }
+  return analyzeExams(exams);
+}
+
+function analyzeExams (exams) {
+  let analysis = [];
+  exams.forEach((exam) => {
+    let gradeRange = {
+      average: roundSingleDigit(exam.reduce((accum, value) => accum + value) / exam.length),
+      minimum: Math.min(...exam),
+      maximum: Math.max(...exam),
+    };
+    analysis.push(gradeRange);
+  });
+  return analysis;
+}
+
+function listStudentGrades(scores) {
+  let studentGrades = [];
+  Object.keys(scores).forEach((student) => {
+    studentGrades.push(calculateGrade(scores[student]));
+  });
+  return studentGrades;
 }
 
 function calculateGrade(student) {
-  let finalScore = Math.round(averageExamScore(student) * EXAM_RATE) + (totalExerciseScore(student) * EXERCISE_RATE);
-  let finalGrade = getGrade(score);
+  let weightedExamScore = averageExamScore(student) * EXAM_RATE;
+  let weightedExerciseScore = totalExerciseScore(student) * EXERCISE_RATE;
+  let finalScore = Math.round(weightedExamScore + weightedExerciseScore);
+  let finalGrade = getGrade(finalScore);
 
-  return String(finalScore) + '(' + finalGrade + ')';
+  return String(finalScore) + ' (' + finalGrade + ')';
 }
 
 function getGrade(score) {
@@ -110,12 +145,10 @@ function roundSingleDigit(number) {
   return Math.round(number * 10) / 10;
 }
 
-console.log(totalExerciseScore(studentScores.student5));
+console.log(generateClassRecordSummary(studentScores));
 
-// generateClassRecordSummary(studentScores);
 
 // returns:
-
 // {
 //   studentGrades: [ '87 (B)', '73 (D)', '84 (C)', '86 (B)', '56 (F)' ],
 //   exams: [
@@ -125,3 +158,79 @@ console.log(totalExerciseScore(studentScores.student5));
 //     { average: 91.8, minimum: 80, maximum: 100 },
 //   ],
 // }
+
+/*
+LS SOLUTION
+function generateClassRecordSummary(scores) {
+  let scoreData = Object.keys(scores).map(student => scores[student].scores);
+  let examData = scoreData.map(score => score.exams);
+
+  return {
+    studentGrades: scoreData.map(scoreObj => getStudentScore(scoreObj)),
+    exams: getExamSummary(examData),
+  };
+}
+
+function getStudentScore(scoreObj) {
+  let lookupLetter = function (percentageGrade) {
+    if (percentageGrade >= 93) {
+      return 'A';
+    } else if (percentageGrade >= 85 && percentageGrade < 93) {
+      return 'B';
+    } else if (percentageGrade >= 77 && percentageGrade < 85) {
+      return 'C';
+    } else if (percentageGrade >= 69 && percentageGrade < 77) {
+      return 'D';
+    } else if (percentageGrade >= 60 && percentageGrade < 69) {
+      return 'E';
+    } else {
+      return 'F';
+    }
+  };
+
+  let examsAvg = computeExamsAverage(scoreObj.exams);
+  let exercisesAvg = computeExercisesScore(scoreObj.exercises);
+  let percentageGrade = Math.round(examsAvg * 0.65 + exercisesAvg * 0.35);
+
+  return String(percentageGrade) + ' (' + lookupLetter(percentageGrade) + ')';
+}
+
+function computeExamsAverage(exams) {
+  return exams.reduce((total, score) => total + score) / exams.length;
+}
+
+function computeExercisesScore(exercises) {
+  return exercises.reduce((total, score) => total + score);
+}
+
+function getExamSummary(examScoresPerStudent) {
+  let scoresPerExam = transpose(examScoresPerStudent);
+
+  return scoresPerExam.map(examScores => {
+    return {
+      average: parseFloat(getExamAverage(examScores)),
+      minimum: getExamMinimum(examScores),
+      maximum: getExamMaximum(examScores),
+    };
+  });
+}
+
+function transpose(array) {
+  return array[0].map((col, columnIdx) => {
+    return array.map(row => row[columnIdx]);
+  });
+}
+
+function getExamAverage(scores) {
+  return (scores.reduce((total, score) => total + score) / scores.length)
+            .toFixed(1);
+}
+
+function getExamMinimum(scores) {
+  return scores.reduce((min, score) => (min <= score ? min : score));
+}
+
+function getExamMaximum(scores) {
+  return scores.reduce((max, score) => (max >= score ? max : score));
+}
+*/
