@@ -1,5 +1,26 @@
 // Write a program that determines the sentence with the most words in some text. Sentences may end with periods (.), exclamation points (!), or question marks (?). Sentences always begin with a word character. You should treat any sequence of characters that are not spaces or sentence-ending characters, as a word. Log the longest sentence and its word count to the console. Pay attention to the expected output. Note that this problem is about manipulating and processing strings. As such, every detail about the string matters (e.g., case, punctuation, tabs, spaces, etc.).
 
+function longestSentence(text) {
+  let sentences = []
+  
+  text.split(/(\.|!|\?)/).forEach((block, idx, array) => { 
+    if (idx % 2 === 0 && idx !== array.length - 1) {
+      sentences.push(block + array[idx + 1]);
+    }
+  });
+
+  let sortedSentences = sentences.map((s, index) => index === 0 ? s : s.slice(1))
+                                 .sort((s1, s2) => s2.split(' ').length - s1.split(' ').length);
+
+  console.log(sortedSentences[0]);
+  wordCount(sortedSentences[0]);
+}
+
+function wordCount(sentence) {
+  let wordLength = sentence.split(' ').length;
+  console.log('The longest sentence has ' + wordLength + ' words.');
+}
+
 let longText = 'Four score and seven years ago our fathers brought forth' +
   ' on this continent a new nation, conceived in liberty, and' +
   ' dedicated to the proposition that all men are created' +
@@ -50,27 +71,6 @@ let longText = 'Four score and seven years ago our fathers brought forth' +
   ' did here. It is for us the living, rather, to be dedicated' +
   ' here to the unfinished work which they who fought' +
   ' here have thus far so nobly advanced.';
-
-function longestSentence(text) {
-  let sentences = []
-  
-  text.split(/(\.|!|\?)/).forEach((block, idx, array) => { 
-    if (idx % 2 === 0 && idx !== array.length - 1) {
-      sentences.push(block + array[idx + 1]);
-    }
-  });
-
-  let sortedSentences = sentences.map((s, index) => index === 0 ? s : s.slice(1))
-                                 .sort((s1, s2) => s2.split(' ').length - s1.split(' ').length);
-
-  console.log(sortedSentences[0]);
-  wordCount(sortedSentences[0]);
-}
-
-function wordCount(sentence) {
-  let wordLength = sentence.split(' ').length;
-  console.log('The longest sentence has ' + wordLength + ' words.');
-}
 
 longestSentence(longText);
 

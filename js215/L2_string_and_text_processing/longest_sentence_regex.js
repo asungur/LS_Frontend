@@ -1,5 +1,24 @@
 // Write a program that determines the sentence with the most words in some text. Sentences may end with periods (.), exclamation points (!), or question marks (?). Sentences always begin with a word character. You should treat any sequence of characters that are not spaces or sentence-ending characters, as a word. Log the longest sentence and its word count to the console. Pay attention to the expected output. Note that this problem is about manipulating and processing strings. As such, every detail about the string matters (e.g., case, punctuation, tabs, spaces, etc.).
 
+function longestSentence(text) {
+  let orderedSentences = text.match(/\w.*?[!?.]/g)
+                      .sort(sortSentences);
+  
+  console.log(orderedSentences[0] + '\n');
+  analyzeCount(orderedSentences[0]);
+}
+
+function sortSentences(sentence1, sentence2) {
+  return wordCount(sentence2) - wordCount(sentence1);
+}
+
+function analyzeCount(sentence) {
+  console.log('The longest sentence has ' + wordCount(sentence) + ' words. \n');
+}
+
+function wordCount(sentence) {
+  return sentence.split(' ').length;
+}
 
 let longText = 'Four score and seven years ago our fathers brought forth' +
   ' on this continent a new nation, conceived in liberty, and' +
@@ -51,26 +70,6 @@ let longText = 'Four score and seven years ago our fathers brought forth' +
   ' did here. It is for us the living, rather, to be dedicated' +
   ' here to the unfinished work which they who fought' +
   ' here have thus far so nobly advanced.';
-
-function longestSentence(text) {
-  let orderedSentences = text.match(/\w.*?[!?.]/g)
-                      .sort(sortSentences);
-  
-  console.log(orderedSentences[0] + '\n');
-  analyzeCount(orderedSentences[0]);
-}
-
-function sortSentences(sentence1, sentence2) {
-  return wordCount(sentence2) - wordCount(sentence1);
-}
-
-function analyzeCount(sentence) {
-  console.log('The longest sentence has ' + wordCount(sentence) + ' words. \n');
-}
-
-function wordCount(sentence) {
-  return sentence.split(' ').length;
-}
 
 longestSentence(longText);
 // It is rather for us to be here dedicated to the great task remaining before us -- that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion -- that we here highly resolve that these dead shall not have died in vain -- that this nation, under God, shall have a new birth of freedom -- and that government of the people, by the people, for the people, shall not perish from the earth.
