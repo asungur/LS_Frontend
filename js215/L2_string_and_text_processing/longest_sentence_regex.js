@@ -2,7 +2,7 @@
 
 function longestSentence(text) {
   let orderedSentences = text.match(/\w.*?[!?.]/g)
-                      .sort(sortSentences);
+                             .sort(sortSentences);
   
   console.log(orderedSentences[0] + '\n');
   analyzeCount(orderedSentences[0]);
