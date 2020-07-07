@@ -21,35 +21,71 @@
 
 // Initialize the stack and register to the values [] and 0, respectively.
 
+function minilang(string) {
+  let commands = string.split(' ');
+  let register = 0;
+  let stack = [];  // uses push and pop methods
 
-console.log(minilang('PRINT'));
+  commands.forEach(command => {
+    [register, stack] = execute(command, stack, register);
+  });
+}
+
+function execute(command, stack, register) {
+  if (command === 'PRINT') {
+    console.log(register);
+  } else if (command === 'PUSH') {
+    stack.push(register);
+  } else if (command === 'ADD') {
+    register += stack.pop();
+  } else if (command === 'SUB') {
+    register -= stack.pop();
+  } else if (command === 'MULT') {
+    register *= stack.pop();
+  } else if (command === 'MOD') {
+    register = stack.pop() % register;
+  } else if (command === 'POP') {
+    register = stack.pop();
+  } else if (command === 'DIV') {
+    register = Math.floor(stack.pop() / register);
+  } else if (isNumber(command)) {
+    register = parseInt(command, 10);
+  }
+  return [register, stack];
+}
+
+function isNumber(command) {
+  return String(parseInt(command)) === command;
+}
+
+// console.log(minilang('PRINT'));
 // 0
 
-console.log(minilang('5 PUSH 3 MULT PRINT'));
-// 15
+// console.log(minilang('5 PUSH 3 MULT PRINT'));
+// // 15
 
-console.log(minilang('5 PRINT PUSH 3 PRINT ADD PRINT'));
-// 5
-// 3
-// 8
+// console.log(minilang('5 PRINT PUSH 3 PRINT ADD PRINT'));
+// // 5
+// // 3
+// // 8
 
-console.log(minilang('5 PUSH POP PRINT'));
-// 5
+// console.log(minilang('5 PUSH POP PRINT'));
+// // 5
 
-console.log(minilang('3 PUSH 4 PUSH 5 PUSH PRINT ADD PRINT POP PRINT ADD PRINT'));
-// 5
-// 10
-// 4
-// 7
+// console.log(minilang('3 PUSH 4 PUSH 5 PUSH PRINT ADD PRINT POP PRINT ADD PRINT'));
+// // 5
+// // 10
+// // 4
+// // 7
 
-console.log(minilang('3 PUSH PUSH 7 DIV MULT PRINT'));
-// 6
+// console.log(minilang('3 PUSH PUSH 7 DIV MULT PRINT'));
+// // 6
 
-console.log(minilang('4 PUSH PUSH 7 MOD MULT PRINT'));
-// 12
+// console.log(minilang('4 PUSH PUSH 7 MOD MULT PRINT'));
+// // 12
 
-console.log(minilang('-3 PUSH 5 SUB PRINT'));
-// 8
+// console.log(minilang('-3 PUSH 5 SUB PRINT'));
+// // 8
 
-console.log(minilang('6 PUSH'));
-// (nothing is printed because the `program` argument has no `PRINT` commands)
+// console.log(minilang('6 PUSH'));
+// // (nothing is printed because the `program` argument has no `PRINT` commands)
