@@ -1,7 +1,5 @@
 // We want to implement a role-playing game and started working on the dice roll functionality. First, study the game code. Then take a look at the example output and information provided below.
 
-
-
 // Standard role-playing dice, ranging from 4 faces to 20,
 // specified in terms of minimum and maximum face value.
 const d4  = {min: 1, max: 4};
@@ -37,8 +35,15 @@ function targetRoll(characterValue, bonus = {min: 0, max: 0}, penalty = {min: 0,
   console.log(`--> ${result}`);
 
   switch (result) {
-    case 1:  automaticFail();
+    // CASE STATEMENTS MISSING BREAK
+    case 1: automaticFail();
     case 20: automaticSuccess();
+    // case 1: 
+    //   automaticFail();
+    //   break;
+    // case 20:
+    //   automaticSuccess();
+    //   break;
     default: result >= characterValue ? success() : fail();
   }
 }
@@ -85,6 +90,7 @@ targetRoll(myCharacter.constitution, {min: 0, max: 4});
 // He has to roll against his education, in order to determine
 // whether he's able to read it.
 targetRoll(myCharacter.education);
+
 // When playing around with the above program, our three test rolls result in three random values that produce the sample output below (because each dice roll produces a random value, your output may differ). The outcome of rolling 16 looks correct, but the output when we rolled values 1 and 20 doesn't make sense. For each roll, only one outcome should be displayed. What is wrong with the code?
 
 // --> 1
