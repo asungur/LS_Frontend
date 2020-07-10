@@ -15,7 +15,6 @@ console.log(transpose([[1, 2, 3, 4, 5], [4, 3, 2, 1, 0], [3, 7, 8, 6, 2]]));
 
 
 
-// PREVIOUS SOLUTION
 function transpose(matrix) {
   const KEY = matrix[0].length;
   let transposedMatrix = [];
