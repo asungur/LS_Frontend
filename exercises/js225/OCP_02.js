@@ -4,6 +4,13 @@
 
 // Here's a sample run;
 
+function delegate(obj, methodName, ...args) {
+  return function() {
+    return obj[methodName](args);
+  };
+}
+
+
 const foo = {
   name: 'test',
   bar(greeting) {
