@@ -483,9 +483,219 @@
 ## Object creation patterns
 
 - **Constructor functions**
+
+    Constructor functions make use of `new` keyword to create new objects. When we call a constructor function with a `new` keyword , say; `let newObj = new ConstFunc(arg1, arg2);` :
+
+    1. Constructor function creates a new object, which has the below relationship:
+        - `newObj.constructor === [Function: ConstFunc]`
+        - `ConstFunc.prototype === ConstFunc {}`
+        - `newObj.constructor.prototype === ConstFunc {}`
+    2. `this` assigned to new object `newObj` 
+    3. `ConstFunc` function is executed in this execution context with the arguments.
+    4. Since `ConstFunc` function does not return any value, `this` will be returned.
+
+    `newObj` inherits properties of the object `ConstFunc {}` which is `ConstFunc` functions prototype object `ConstFunc.prototype` .Therefore, it can be said that `newObj`is an instance of `ConstFunc` .
+
+    There are a couple of methods provided by JavaScript that helps us examine prototypal inheritance:
+
+    ```jsx
+    function ConstFunc(arg1, arg2) {
+    	this.prop = `${arg1} ${arg2}`;
+    }
+
+    let newObj = new ConstFunc();
+
+    newObj.constructor;                        // [Function: ConstFunc]
+    ConstFunc.prototype;                       // ConstFunc {}
+    newObj.constructor === ConstFunc;          // true
+
+    newObj instanceof ConstFunc;               // true
+    ConstFunc.prototype.isPrototypeOf(newObj); // true
+    Object.getPrototypeOf(newObj);             // ConstFunc {}
+    ConstFunc.isPrototypeOf(newObj);           // false
+
+    ConstFunc.prototype.constructor;           // [Function: ConstFunc] 
+    ```
+
+    Lastly, last line shows how `ConstFunc` functions prototype object contains `constructor` property that points back to `ConstFunc` .
+
+    Similar to **Factory functions,** Constructor functions copy all methods to all instances created by the function, which is inefficient.
+
 - **Prototype objects**
+
+    JavaScript objects contain a secret property `[[Prototype]]` that can be access through getter and setter methods `Object.getPrototypeOf` and `Object.setPrototypeOf`.
+
+    `Object.create` returns a new object which has `[[Prototype]]` property assigned to the object that is passed in to `Object.create` as an argument.
+
+    ```jsx
+    let protoObj = {
+      data: 'My kin',
+    };
+
+    let child1 = Object.create(protoObj);
+    let child2 = {};
+
+    Object.setPrototypeOf(child2, protoObj);
+
+    console.log(Object.getPrototypeOf(child1));                        // { data: 'My kin' }
+    console.log(Object.getPrototypeOf(child2));                        // { data: 'My kin' }
+    console.log(Object.getPrototypeOf(protoObj) === Object.prototype); // true
+
+    console.log(protoObj.isPrototypeOf(child1));                       // true
+    console.log(protoObj.isPrototypeOf(child2));                       // true
+    console.log(Object.prototype.isPrototypeOf(protoObj));             // true
+    console.log(Object.prototype.isPrototypeOf(child1));               // true
+
+    console.log(Object.getPrototypeOf(child1) === Object.prototype);   // false
+    ```
+
+    One thing thing to note here is the difference between `isPrototypeOf` and `getPrototypeOf` .
+
+    `Object.prototype` form the top of prototype chain for all JS objects. In the above example we have `Object.prototype` → `protoObj` → `child1` = `child2` .
+
+    On line 16 `isPrototypeOf` checks if calling object `Object.prototype` is located higher in the prototype chain than `child2` . This method does not return the **next object in the prototype chain.**
+
+    If we want to check if an object inherits directly from another object it is better to use `Object.getPrototypeOf` .
+
 - **Behavior delegation**
+
+    Prototypal inheritance is based on **objects at the bottom of the chain inheriting properties from the upstream objects**. Looking prototypal inheritance chain from a different perspective, when we try to access a property of an object at the bottom of the chain, JavaScript will search the object's own properties first. If the property does not exist among object's initial properties **the search will be delegated to the upstream objects.** This is called behavior delegation.
+
+    ```jsx
+    let grandma = {
+      piano: 'piano',
+    };
+
+    let dad = Object.create(grandma);
+    dad.driving = 'driving';
+
+    let child = Object.create(dad);
+    child.climbing = 'climbing';
+    child.coding = 'coding';
+
+    console.log(child.climbing);                      // climbing
+    console.log(child.piano);                         // piano
+    console.log(child.hasOwnProperty('piano'));       // false
+
+    console.log(Object.getOwnPropertyNames(child));   // [ 'climbing', 'coding' ]
+    console.log(Object.getOwnPropertyNames(dad));     // [ 'driving' ]
+    console.log(Object.getOwnPropertyNames(grandma)); // [ 'piano' ]
+    ```
+
+    Above, we have an prototypal inheritance chain `grandma` → `dad` → `child` .
+
+    When we try to access `piano` property of `child` object, this request will be delegated to the upper object in inheritance chain. Because `dad` object does not contain such property it will delegate this request to upper object `grandma` . The value of  `piano` property will be returned.
+
+    JavaScript provides `Object.getOwnPropertyNames` and `Object.prototype.hasOwnProperty` methods that allows us to examine the properties that are only owned by the objects.
+
 - **OLOO and Pseudo-Classical patterns**
+    - **OLOO (Object Linking to Other Object)**
+        - OLOO, is an object creation pattern based on **using prototype objects with `Object.create` method**. The simplicity of this pattern comes from not dealing with constructors and prototype properties.
+        - With OLOO **object creation and initialization occur at different times** where the latter is optional. Because OLOO Pattern does not use constructors examining inheritance by using `Object.constructor.prototype` will return `Object.Prototype` since it is the top element in the prototypal inheritance hierarchy. Instead, we should use `isPrototypeOf` and/or `Object.getPrototypeOf` for this purpose.
+        - We also cannot use `instanceof` because the right-hand operand has to be a function.
+
+        ```jsx
+        let Album = {
+          name: 'N/A',
+          artist: 'N/A',
+          year: 'N/A',
+          readTag() {
+            console.log(this.name + ' by ' + this.artist);
+            console.log('Released in ' + this.year);
+          },
+          init(name, artist, year) {
+            this.name = name;
+            this.artist = artist;
+            this.year = year;
+            return this;
+          },
+        };
+
+        let inAbsentia = Object.create(Album).init('In Absentia', 'Porcupine Tree', '2002');
+        let unknownAlbum = Object.create(Album);
+
+        inAbsentia.readTag();                               //In Absentia by Porcupine Tree
+                                                            // Released in 2002
+
+        console.log(Album.isPrototypeOf(inAbsentia));       // true
+        console.log(Album.isPrototypeOf(unknownAlbum));     // true
+        console.log(inAbsentia.constructor.prototype);      // Object.Prototype
+        console.log(Object.getPrototypeOf(inAbsentia));     // Album
+
+        Album.check = function() {
+          console.log('I inherit');
+        };
+
+        inAbsentia.check();                                    // "I inherit!"
+        ```
+
+        Above `inAbsentia` and `unknowAlbum` have different properties, but they share the same methods as `Album` . 
+
+        Since we created a **behavior delegation rather than copying of all methods at object creation time**, when we add a new method to prototype object called `check` and call this method on the instance `inAbsentia` this method call will be delegated to its prototype.
+
+    - **Pseudo-Classical**
+        - Pseudo-Classical Pattern is a combination of Constructor Functions and Prototype Pattern. This popular pattern resolves the problem of inefficiency of the previous two and introduces prototypal inheritance.
+        - This pattern introduces a clear distinction between **private propertie**s and **shared properties** and methods, by separating two within **the constructor function** and **constructor function's prototype**.
+
+        ```jsx
+        let Album = function(name = 'N/A', artist = 'N/A', year = 'N/A') {
+          this.name = name;
+          this.artist = artist;
+          this.year = year;
+        };
+
+        Album.prototype.readTag = function() {
+          console.log(this.name + ' by ' + this.artist);
+          console.log('Released in ' + this.year);
+        };
+
+        Album.prototype.type = 'Prog-rock';
+
+        let inAbsentia = new Album('In Absentia', 'Porcupine Tree', '2002');
+        let deadwing = new Album('Deadwing', 'Porcupine Tree', '2005');
+
+        inAbsentia.readTag();                   // In Absentia by Porcupine Tree
+                                                // Released in 2002
+        deadwing.readTag();                     // Deadwing by Porcupine Tree
+                                                // Released in 2005
+        console.log(inAbsentia.type);           // Prog-rock
+        console.log(deadwing.type);             // Prog-rock
+        ```
+
+        Although, the above separation makes sense, in practice this makes the code look staggered. We can avoid this by combining everything in the constructor function and testing prototype properties' existence before assignment.
+
+        ```jsx
+        let Album = function(name = 'N/A', artist = 'N/A', year = 'N/A') {
+          this.name = name;
+          this.artist = artist;
+          this.year = year;
+
+        	if (typeof this.readTag !== 'function') {
+        		Object.getPrototypeOf(this).readTag = function() {
+        		  console.log(this.name + ' by ' + this.artist);
+        		  console.log('Released in ' + this.year);
+        		};
+        	}
+
+        	if (!this.type) {
+        		Object.getPrototypeOf(this).type = 'Prog-rock';
+        	}
+        };
+
+        let inAbsentia = new Album('In Absentia', 'Porcupine Tree', '2002');
+        let deadwing = new Album('Deadwing', 'Porcupine Tree', '2005');
+
+        inAbsentia.readTag();                   // In Absentia by Porcupine Tree
+                                                // Released in 2002
+        deadwing.readTag();                     // Deadwing by Porcupine Tree
+                                                // Released in 2005
+        console.log(inAbsentia.type);           // Prog-rock
+        console.log(deadwing.type);             // Prog-rock
+        ```
+
+        In the above example, when we create `inAbsentia` object, `if` statements check if the object(or its prototype) already has a property called `readTag` / `type` . Since `inAbsentia` is the first object that is being created by this constructor, this will evaluate `true` . 
+
+        Then we can create this property on `inAbsentia` object's prototype which is `Album.prototype` by accessing it via `Object.getPrototypeOf(this)` (this represent the object that is created and assigned to `inAbsentia` )
 
 ## Further reading to help build a mental model
 
