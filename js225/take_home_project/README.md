@@ -1,6 +1,6 @@
-1. **[Assumptions](https://www.notion.so/905f0a53b3654ee1b820ebfeefca75fc#96d6a0f83a324931a031257618545bc5)**
-2. **[Documentation](https://www.notion.so/905f0a53b3654ee1b820ebfeefca75fc#290f6dd7900c4820b3af8e0bd6f2d4ec)**
-3. **[Further Development](https://www.notion.so/905f0a53b3654ee1b820ebfeefca75fc#3540aab441124b039ded5188a8bb25b2)**
+1. **[Assumptions](#assumptions)**
+2. **[Documentation](#documentation)**
+3. **[Further Development](#further_development)**
 
 ## Assumptions
 
