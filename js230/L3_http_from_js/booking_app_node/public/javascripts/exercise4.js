@@ -60,3 +60,55 @@ function scheduleTemplate({number, staffs}) {
   container.appendChild(dl);
   return container;
 }
+
+const form = document.querySelector('form');
+let staffs = [];
+let scheduleCount = 0;
+
+(() => {
+  const request = new XMLHttpRequest();
+  request.open('GET', '/api/staff_members');
+  request.responseType = 'json';
+  request.send();
+  request.addEventListener('load', event => {
+    staffs = request.response;
+  });
+})();
+
+document.querySelector('#btnAdd').addEventListener('click', event => {
+  event.preventDefault();
+  const el = document.createElement('fieldset');
+  scheduleCount += 1;
+  el.id = `schedule_${String(scheduleCount)}`;
+  el.appendChild(scheduleTemplate({ number: scheduleCount, staffs });
+  document.querySelector('#schedules').appendChild(el);
+});
+
+function formInputsToJson() {
+  const json = [];
+
+  for (let i = 0; i < scheduleCount; i += 1) {
+      let schedule = {};
+      schedule.staff_id = form[`staff_${String(i + 1)}`].value;
+      schedule.date = form[`date_${String(i + 1)}`].value;
+      schedule.time = form[`time_${String(i + 1)}`].value;
+      json.push(schedule);
+  }
+
+  return {schedules: json};
+}
+
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  const json = JSON.stringify(formInputsToJson());
+  const xhr = new XMLHttpRequest();
+
+  xhr.open('POST', form.action);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.send(json);
+
+  xhr.addEventListener('load', event => {
+      if (xhr.status === 201) form.reset();
+      alert(xhr.responseText);
+  });
+});
