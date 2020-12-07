@@ -30,3 +30,54 @@ var languages = [
     known general-purpose Lisp dialects are Common Lisp and Scheme.'
   }
 ];
+languages.forEach(language => {
+  let shortDesc = `${language.description.slice(0, 120)} ...`;
+  language.shortDescription = shortDesc;
+});
+
+function renderLanguages() {
+  languages.forEach(function(lang) {
+    var $langDiv = $('<div class=lang></div>');
+
+    $langDiv.attr('data-lang', lang.name);
+    $langDiv.append($('<h2>').text(lang.name));
+    $langDiv.append($('<p>').text(lang.shortDescription));
+    $langDiv.append($('<a href=# class=more>').text('Show More'));
+
+    $('#languages').append($langDiv);
+  });
+}
+
+renderLanguages();
+
+$('.more').on('click', function(e) {
+  var $btn = $(e.target);
+  var $langDiv = $btn.closest('.lang');
+  var langName = $langDiv.attr('data-lang');
+  var langObj  = languages.filter(function(lang) { return lang.name === langName; })[0];
+
+  if ($btn.text() === 'Show More') {
+    $langDiv.find('p').text(langObj.description);
+    $btn.text('Show Less');
+  } else {
+    $langDiv.find('p').text(langObj.description.slice(0, 120) + ' ...');
+    $btn.text('Show More');
+  }
+});
+
+
+// Create a collection of programming languages of your choice.
+// Display a heading and a paragraph for each programming language.
+// Initially, display the first 120 characters for each paragraph.
+// There is a Show More button for each programming language.
+// Functionality
+// When the user clicks the Show More button:
+
+// Display the entire paragraph about the corresponding language.
+// Change the button text to Show Less.
+// When the user clicks the Show Less button:
+
+// Change the button text to Show More.
+// Hide all but the first 120 characters of the paragraph text.
+// You can choose any programming languages you want. Here's are some candidate languages you can use:
+
