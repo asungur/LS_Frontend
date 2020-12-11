@@ -23,6 +23,3 @@ var App = {
     $('#exotic_animals').on('mouseleave', 'img', this.handleMouseLeave.bind(this));
   }
 };
-
-
-App.init();
