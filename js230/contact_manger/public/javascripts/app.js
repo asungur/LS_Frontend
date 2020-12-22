@@ -59,7 +59,7 @@ $(function() {
       API.deleteContact(contactId);
     },
     loadAll(json) {
-      Tags.tags = [];
+      Tags.deleteTags();
       this.contacts = [];
       json.forEach((contactInfo) => {
         this.contacts.push(contactInfo);
@@ -81,8 +81,10 @@ $(function() {
         id: parseInt(contactId),
         full_name: UI.$inputName.val(),
         email: UI.$inputEmail.val(),
-        phone_number: UI.$inputPhone.val()
+        phone_number: UI.$inputPhone.val(),
+        tags: UI.$inputTags.val().split(" ").join(","),
       };
+      console.log(formInfo);
       API.updateContact(formInfo, contactId)
     },
     chooseByName(searchVal) {
@@ -112,36 +114,44 @@ $(function() {
       API.getAllContacts();
     },
   };
-  
-  const Tags = {
-    tags: [],
 
-    getAllNames() {
-      return this.tags.map(tag => tag.name);
-    },
-    getObjectIds(tagName) {
-      let tagObj = this.tags.filter(tag => tag.name === tagName)[0];
-      return tagObj.contacts;
-    },
-    extractFromContact(contact) {
-      if(contact.tags === null) {
-        return;
-      }
+  const Tags = (() => {
+    let tags = [];
+    function getAllNames() {
+      return tags.map(tag => tag.name);
+    }
 
-      let tagNames = this.getAllNames();
-      contact.tags.split(',').forEach(tag => {
-        if (!tagNames.includes(tag)) {
-          this.tags.push({name: tag, contacts: [contact.id]});
-        } else {
-          let idx = tagNames.indexOf(tag);
-          this.tags[idx].contacts.push(contact.id);
+    return {
+      getObjectIds(tagName) {
+        let tagObj = tags.filter(tag => tag.name === tagName)[0];
+        return tagObj.contacts;
+      },
+      extractFromContact(contact) {
+        if(contact.tags === null) {
+          return;
         }
-      });
-    },
-    getByName(tagName) {
-      return this.tags.filter(tag => tag.name === tagName);
-    },
-  };
+
+        let tagNames = getAllNames();
+        contact.tags.split(',').forEach(tag => {
+          if (!tagNames.includes(tag)) {
+            tags.push({name: tag, contacts: [contact.id]});
+          } else {
+            let idx = tagNames.indexOf(tag);
+            tags[idx].contacts.push(contact.id);
+          }
+        });
+      },
+      getByName(tagName) {
+        return tags.filter(tag => tag.name === tagName);
+      },
+      deleteTags() {
+        tags.length = 0;
+      },
+      getAll() {
+        return tags;
+      }
+    };
+  })();
 
   const UI = {
     contactTemplate: null,
@@ -178,13 +188,12 @@ $(function() {
       this.$inputName.val(contact.full_name);
       this.$inputEmail.val(contact.email);
       this.$inputPhone.val(contact.phone_number);
+      this.$inputTags.val(contact.tags.split(",").join(" "));
       this.$formAction.html('Edit');
-      // TAGS TO BE ADDED
     },
     newContact() {
       this.hideAll();
       this.$form.removeClass("hide");
-
       this.$formAction.html('New');
     },
     renderContacts(contactsArr) {
@@ -202,7 +211,7 @@ $(function() {
     },
     renderAllTags() {
       this.$tagsTitle.text("Tags |");
-      this.$tagsBar.html(this.tagTemplate({ tags: Tags.tags }));
+      this.$tagsBar.html(this.tagTemplate({ tags: Tags.getAll() }));
     },
     hideAll() {
       this.$controls.addClass("hide");
@@ -231,6 +240,7 @@ $(function() {
       this.$inputName.val("");
       this.$inputEmail.val("");
       this.$inputPhone.val("");
+      this.$inputTags.val("");
     },
     init() {
       this.registerTemplates();
@@ -254,7 +264,6 @@ $(function() {
     },
     refreshTagFiltering() {
       Contacts.selectedContacts = Contacts.contacts;
-
       UI.renderAllContacts();
       UI.renderAllTags();
     },
@@ -263,7 +272,6 @@ $(function() {
 
       if (searchVal.length === 0) {
         UI.$noMatchMessage.val = "";
-
         UI.renderAllContacts();
         return;
       }
@@ -279,11 +287,18 @@ $(function() {
       UI.renderAllTags();
     },
     addListeners() {
+      this.handleHomePage();
+      this.handleContactEvents();
+      this.handleFormEvents();
+      this.handleControlBarEvents();
+    },
+    handleHomePage() {
       UI.$header.on('click', e => {
         e.preventDefault();
         UI.renderAllContacts();
       });
-
+    },
+    handleContactEvents() {
       UI.$container.on('click', '.edit', e => {
         e.preventDefault();
 
@@ -291,18 +306,17 @@ $(function() {
         let contact = Contacts.load(id);
         UI.editContact(contact, id);
       });
-
       UI.$container.on('click', '.delete', e => {
         e.preventDefault();
         Contacts.delete(this.getContactId(e))
       });
-
       UI.$container.on('click', '.add_contact', e => {
         e.preventDefault();
 
         UI.newContact();
       });
-
+    },
+    handleFormEvents() {
       UI.$form.on('submit', e => {
         e.preventDefault();
         let action = UI.$formAction.html();
@@ -314,15 +328,14 @@ $(function() {
         }
         UI.clearForm();
       });
-
       UI.$formCancel.click(e => {
         e.preventDefault();
         UI.clearForm();
         UI.renderAllContacts();
       });
-
+    },
+    handleControlBarEvents() {
       UI.$search.keyup(() => this.filterByName());
-
       UI.$tagsBar.on('click', '.tag', e => {
         e.preventDefault();
         
@@ -335,7 +348,6 @@ $(function() {
     },
     init() {
       this.filterByName = debounce(this.filterByName.bind(this), 300);
-
       Contacts.init();
       this.addListeners();
       UI.init();
