@@ -8,8 +8,120 @@
   <title>Document</title>
   <script src="/javascripts/jquery.js"></script>
   <script src="/javascripts/handlebars.js"></script>
+  <script type="module" src="/javascripts/app.js"></script>
+  <link rel="stylesheet" href="/stylesheets/app.css">
 </head>
 <body>
+  <header>
+    <h1><a href="#">Contact Manager</a></h1>
+    <p>Launch School JS239 take-home prep</p>
+  </header>
+  <main>
+    <div class="container">
+      <div class="controls">
+        <h3 class="tags-title"></h3>
+        <div class="tags-bar">
+        </div>
+        <input id="search" type="text" placeholder="Search" autocomplete="off">
+        <a class="add_contact" href="#">Add Contact</a>
+      </div>
+      <div class="empty hide">
+        <h1>No registered contacts found</h1>
+        <a class="add_contact" href="#">Add your first contact</a>
+      </div>
+      <div class="error hide">
+        <h1>No matching contact found with <span id="search_message"></span></h1>
+      </div>
+      <div class="tag-filter hide">
+        <h1><span id="search_tags"></span></h1>
+        <button id="clear_search" type="button">Clear Search</button>
+      </div>
+      <div class="show contacts hide">
 
+      </div>
+      <div class="form contacts hide">
+        <h3><span id="action"></span> Contact</h3>
+        <hr>
+        <form novalidate>
+          <fieldset>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <label for="form_name">Full name:</label>
+                  </td>
+                  <td colspan="2">
+                    <input name="form_name" type="text" autocomplete="off" required>
+                    <span class="error message" data-field_name="name"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="form_email">Email address:</label>
+                  </td>
+                  <td colspan="2">
+                    <input name="form_email" type="email" autocomplete="off" placeholder="foo@bar.com" required>
+                    <span class="error message" data-field_name="email"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="form_phone_number">Telephone number:</label>
+                  </td>
+                  <td colspan="2">
+                    <input name="form_phone_number" type="phone" autocomplete="off" placeholder="07771011001"
+                    required>
+                    <span class="error_message" data-field_name="phone"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="form_tags">Tags(space separated):</label>
+                  </td>
+                  <td colspan="2">
+                    <input name="form_tags" type="text" autocomplete="off" placeholder="work home school">
+                    <span class="error_message" data-field_name="tags"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>
+                    <button type="submit">Submit</button>
+                  </td>
+                  <td>
+                    <button class="cancel" type="reset">Cancel</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
+        </form>
+      </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+  </footer>
+  <script id='contact_template' type='text/x-handlebars'>
+    {{#each contacts}}
+    <div class="contact" data-id="{{id}}">
+      <h3>{{full_name}}</h3>
+      <p class="label">Phone Number:</p>
+      <p>{{phone_number}}</p>
+      <p class="label">Email:</p>
+      <p>{{email}}</p>
+      <p class="label tags">
+        Tags: {{tags}}
+      </p>
+      <a class="edit" href="#contacts/edit/{{id}}">Edit</a>
+      <a class="delete" href="#contacts/delete/{{id}}">Delete</a>
+    </div>
+    {{/each}}
+  </script>
+  <script id="tag-template" type="text/x-handlebars">
+    {{#each tags}}
+      <a href="#" class="tag">{{name}}</a>
+    {{/each}}
+  </script>
 </body>
 </html>
