@@ -47,11 +47,18 @@ $(function() {
     selectedContacts : [],
 
     create() {
+      let tagsArr = UI.$inputTags.val()
+                                 .split(' ')
+                                 .map(t => t.toLowerCase());
+      
+      let tagsUniq = [...new Set(tagsArr)];
+
+
       let formInfo = {
         full_name: UI.$inputName.val(),
         email: UI.$inputEmail.val(),
         phone_number: UI.$inputPhone.val(),
-        tags: UI.$inputTags.val().split(' ').map(tag => tag.toLowerCase()).join(','),
+        tags: tagsUniq.join(','),
       };
       API.saveContact(formInfo);
     },
