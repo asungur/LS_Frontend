@@ -140,10 +140,18 @@ $(function () {
         } else if (section === "completed_items" && title !== "Completed") {
           this.selected = this.done_todos_by_date[title];
         }
-
-        this.current_main_section = section;
-        this.current_section.title = title;
-        this.current_section.data = !!this.selected ? this.selected.length : 0;
+  
+        if (!this.selected) {
+          this.selected = this.todos;
+          this.current_main_section = "all";
+          this.current_section = { title: "All Todos", data: this.selected.length };
+          UI.selectedSection = "all_todos";
+          UI.selectedTitle = "All Todos";
+        } else {
+          this.current_main_section = section;
+          this.current_section.title = title;
+          this.current_section.data = this.selected.length;
+        }
       },
       mark(id, status="completed") {
         API.update({ id: id, completed: status === "completed" });
